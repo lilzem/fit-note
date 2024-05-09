@@ -17,16 +17,26 @@ import WorkoutItem from "../../components/WorkoutItem";
 import CustomButton from "../../components/CustomButton";
 import { Modal } from "../../components/Modal";
 import InputModal from "../../components/InputModal";
-import { router } from "expo-router";
-import { useEffect } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import axios from "../../api/axios";
 
 const Preview = () => {
-    useEffect(() => {
-        axios.get("api/trainings").then((res) => console.log(res));
-    }, []);
+    const [isLoading, setIsLoading] = useState(true);
+    const { id } = useLocalSearchParams();
+    const [workout, setWorkout] = useState({});
 
-    return (
+    useEffect(() => {
+        axios
+            .get(`api/trainings/${id}`)
+            .then((res) => setWorkout(res.data.data.training))
+            .catch((err) => console.log(err))
+            .finally(() => setIsLoading(false));
+    }, [id]);
+
+    return isLoading ? (
+        <Text>Loading...</Text>
+    ) : (
         <View className="flex-1 h-full">
             <ImageBackground
                 source={workouts_background.fitnote_workout_54}
@@ -47,10 +57,10 @@ const Preview = () => {
                                     February 21, 2023
                                 </Text>
                                 <Text className="text-white font-wregular text-[32px]">
-                                    Back Workout
+                                    {workout.name}
                                 </Text>
                                 <Text className="text-gray font-wregular text-sm">
-                                    8 Exercises
+                                    {workout.exercises?.length} Exercises
                                 </Text>
                             </View>
 
@@ -75,20 +85,6 @@ const Preview = () => {
                         <View className="w-full border-b border-gray h-[1] mt-[10]" />
 
                         <ScrollView className="w-full flex-1">
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
-                            <WorkoutItem />
                             <WorkoutItem />
                         </ScrollView>
 

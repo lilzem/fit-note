@@ -2,8 +2,11 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import FormField from "./FormField";
 import { icons } from "../constants/icons";
+import { useState } from "react";
 
-const InputModal = ({ isVisible = false, handlePress }) => {
+const InputModal = ({ isVisible = false, handlePress, handleSubmit }) => {
+    const [name, setName] = useState("");
+
     return (
         <Modal
             isVisible={isVisible}
@@ -22,6 +25,8 @@ const InputModal = ({ isVisible = false, handlePress }) => {
                 <View className="flex-row justify-between items-center mt-[10]">
                     <FormField
                         styles="w-[70vw]"
+                        value={name}
+                        handleChange={setName}
                         placeholder="Type in workout name"
                         isAutoFocus
                     />
@@ -29,7 +34,7 @@ const InputModal = ({ isVisible = false, handlePress }) => {
                     <TouchableOpacity
                         activeOpacity={0.7}
                         className="px-[10] py-[12.5] border border-gray rounded-lg h-[49]"
-                        onPress={handlePress}
+                        onPress={() => handleSubmit(name)}
                     >
                         <Image
                             className="w-[24] h-[24]"

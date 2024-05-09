@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, FlatList } from "react-native";
-import React from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getRandomWorkoutImage } from "../../constants/images";
 import TrainingCard from "../../components/TrainingCard";
@@ -7,11 +7,36 @@ import CustomButton from "../../components/CustomButton";
 import { icons } from "../../constants/icons";
 import { router } from "expo-router";
 import InputModal from "../../components/InputModal";
+import axios from "../../api/axios";
 
 const workouts = () => {
-    const [isModalVisible, setIsModalVisible] = React.useState(false);
+    const [workouts, setWorkouts] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
+
+    const onSubmit = (name) => {
+        axios.post("api/trainings", { name, exercises: [] }).then((res) =>
+            router.push({
+                pathname: "/preview",
+                params: { id: res.data.training._id },
+            })
+        );
+    };
+
+    const onCardClick = (id) => {
+        router.push({
+            pathname: "/preview",
+            params: { id },
+        });
+    };
+
+    useEffect(() => {
+        axios
+            .get("api/trainings")
+            .then((res) => setWorkouts([...res.data.trainings]))
+            .catch((err) => console.log(err));
+    }, []);
 
     return (
         <>
@@ -21,72 +46,16 @@ const workouts = () => {
                         ALL TRAININGS
                     </Text>
 
-                    {/* <FlatList></FlatList> */}
-
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                        handlePress={() => router.push("/preview")}
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
-                    />
-                    <TrainingCard
-                        image={getRandomWorkoutImage()}
-                        name="Back workout"
+                    <FlatList
+                        data={workouts}
+                        renderItem={({ item }) => (
+                            <TrainingCard
+                                image={getRandomWorkoutImage()}
+                                name={item.name}
+                                handlePress={() => onCardClick(item._id)}
+                            />
+                        )}
+                        keyExtractor={(item) => item._id}
                     />
                 </ScrollView>
 
@@ -98,7 +67,11 @@ const workouts = () => {
                     handlePress={handleModal}
                 />
             </SafeAreaView>
-            <InputModal isVisible={isModalVisible} handlePress={handleModal} />
+            <InputModal
+                isVisible={isModalVisible}
+                handlePress={handleModal}
+                handleSubmit={onSubmit}
+            />
         </>
     );
 };
