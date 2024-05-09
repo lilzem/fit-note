@@ -11,41 +11,36 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
     const [isLoading, setIsLoading] = useState(false);
-    // const { login, logout } = useAuthStore((state) => state);
+    const { login, logout } = useAuthStore((state) => state);
 
-    // useEffect(() => {
-    //     setIsLoading(true);
+    useEffect(() => {
+        setIsLoading(true);
 
-    //     const fetchLogin = async () => {
-    //         const token = await AsyncStorage.getItem("@token");
-    //         console.log(token);
-    //         if (token === null || token === undefined) {
-    //             console.log("TOKEN IS NULL OR UNDEFINED");
-    //             logout();
-    //             setIsLoading(false);
-    //         } else {
-    //             try {
-    //                 const response = await axios.get("/api/users/me");
-    //                 const user = response.data;
-    //                 console.log(user);
-    //                 login(token, user);
-    //                 router.replace("/home");
-    //             } catch (err) {
-    //                 console.log("error: ", err);
-    //                 logout();
-    //                 router.replace("/sign-in");
-    //             } finally {
-    //                 setIsLoading(false);
-    //             }
-    //         }
-    //     };
+        const fetchLogin = async () => {
+            const token = await AsyncStorage.getItem("@token");
+            console.log(token);
+            if (token === null || token === undefined) {
+                console.log("TOKEN IS NULL OR UNDEFINED");
+                logout();
+                setIsLoading(false);
+            } else {
+                try {
+                    const response = await axios.get("/api/users/me");
+                    const user = response.data;
+                    login(token, user);
+                    router.replace("/home");
+                } catch (err) {
+                    console.log("error: ", err);
+                    logout();
+                    router.replace("/sign-in");
+                } finally {
+                    setIsLoading(false);
+                }
+            }
+        };
 
-    //     fetchLogin();
-    // }, []);
-
-    if (true) {
-        <Redirect href="/test" />;
-    }
+        fetchLogin();
+    }, []);
 
     return isLoading ? (
         <View className="flex-1 flex justify-center h-full bg-black">
