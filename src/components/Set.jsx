@@ -7,9 +7,8 @@ const Set = ({ weight, reps, handleChange, onDelete }) => {
     const [_weight, setWeight] = useState(weight);
     const [_reps, setReps] = useState(reps);
 
-    const onInputChange = (event, type) => {
+    const onInputChange = (value, type) => {
         const setter = type == "weight" ? setWeight : setReps;
-        const value = event;
         setter(value);
         handleChange(value, type);
     };

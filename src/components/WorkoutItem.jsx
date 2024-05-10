@@ -4,7 +4,7 @@ import { icons } from "../constants/icons";
 import Edit from "../../assets/images/svgs/edit.svg";
 import Move from "../../assets/images/svgs/move.svg";
 
-const WorkoutItem = ({ name, sets, handlePress }) => {
+const WorkoutItem = ({ name, sets, onEdit, onDelete }) => {
     return (
         <>
             <View className="w-full py-[9] flex flex-row justify-between items-center">
@@ -23,8 +23,8 @@ const WorkoutItem = ({ name, sets, handlePress }) => {
                 </View>
 
                 <View className="flex-row space-x-2">
-                    <Edit height={14} width={14} />
-                    <Move height={14} width={14} />
+                    <Edit height={14} width={14} onPress={onEdit} />
+                    <Move height={14} width={14} onPress={onDelete} />
                 </View>
             </View>
 

@@ -3,7 +3,6 @@ import {
     Text,
     ImageBackground,
     StyleSheet,
-    ScrollView,
     FlatList,
 } from "react-native";
 import { workouts_background } from "../../constants/images";
@@ -17,19 +16,18 @@ import Check from "../../../assets/images/svgs/check_white.svg";
 import Set from "../../components/Set";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
+import axios from "../../api/axios";
 
 const Exercise = () => {
-    const { workout_id } = useLocalSearchParams();
+    const { workout_id, exercise_id } = useLocalSearchParams();
 
     const [sets, setSets] = useState([]);
-
-    console.log(sets);
+    const [name, setName] = useState("");
 
     const onSetChange = (index, value, type) => {
         sets[index][type] = value;
-        setSets(sets);
 
-        console.log("calling", sets);
+        setSets(sets);
     };
 
     const addSet = () => {
@@ -42,14 +40,43 @@ const Exercise = () => {
         setSets(copiedSets);
     };
 
-    // const onSubmit = () => {
-    //     console.log(sets);
-    //     router.back();
-    // };
+    const onSubmit = () => {
+        axios
+            .post(`api/trainings/${workout_id}/exercises`, { name, sets })
+            .then(() =>
+                router.replace({
+                    pathname: "/preview",
+                    params: { id: workout_id },
+                })
+            )
+            .catch((err) => console.log(err));
+    };
+
+    const onUpdate = () => {
+        axios
+            .patch(`api/trainings/${workout_id}/exercises/${exercise_id}`, {
+                name,
+                sets,
+            })
+            .then(() =>
+                router.replace({
+                    pathname: "/preview",
+                    params: { id: workout_id },
+                })
+            )
+            .catch((err) => console.log(err));
+    };
 
     useEffect(() => {
-        console.log(sets);
-    }, [sets]);
+        if (exercise_id) {
+            axios
+                .get(`api/trainings/${workout_id}/exercises/${exercise_id}`)
+                .then(({ data: { exercise } }) => {
+                    setName(exercise.name);
+                    setSets([...exercise.sets]);
+                });
+        }
+    }, []);
 
     return (
         <View className="flex-1 h-full">
@@ -74,6 +101,8 @@ const Exercise = () => {
                                 title="Exercise name"
                                 placeholder="Exercise name"
                                 containerStyles="bg-black"
+                                value={name}
+                                handleChange={(value) => setName(value)}
                             />
 
                             <View className="flex-row justify-between mt-[24] mb-[10] items-center">
@@ -102,14 +131,16 @@ const Exercise = () => {
                                         onDelete={() => removeSet(index)}
                                     />
                                 )}
-                                keyExtractor={(item) => item._id}
+                                keyExtractor={(item, index) =>
+                                    item._id ? item._id : index
+                                }
                             />
 
                             <CustomButton
                                 style="green"
                                 title="Save exercise"
                                 containerStyles="mt-[15]"
-                                handlePress={onSubmit}
+                                handlePress={exercise_id ? onUpdate : onSubmit}
                             >
                                 <Check />
                             </CustomButton>

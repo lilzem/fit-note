@@ -42,13 +42,6 @@ export default function App() {
         fetchLogin();
     }, []);
 
-    // useEffect(() => {
-    //     axios
-    //         .get("/api/status")
-    //         .then((res) => console.log(res.data))
-    //         .catch((err) => console.log(err));
-    // }, []);
-
     return isLoading ? (
         <View className="flex-1 flex justify-center h-full bg-black">
             <Text className="text-white text-3xl text-center font-wbold">

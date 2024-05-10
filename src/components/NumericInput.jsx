@@ -4,20 +4,25 @@ import Plus from "../../assets/images/svgs/plus_grey.svg";
 import { useRef, useState } from "react";
 
 const NumericInput = ({ title, value, onChange }) => {
+    const [number, setNumber] = useState(value);
     const timer = useRef(null);
 
     const handleIncrement = () => {
-        onChange((prev) => prev + 1);
+        setNumber((prev) => prev + 1);
 
         if (timer.current) clearTimeout(timer.current);
+
+        onChange(number);
 
         timer.current = setTimeout(handleIncrement, 100);
     };
 
     const handleDecrement = () => {
-        onChange((prev) => (prev > 0 ? prev - 1 : prev));
+        setNumber((prev) => (prev > 0 ? prev - 1 : prev));
 
         if (timer.current) clearTimeout(timer.current);
+
+        onChange(number);
 
         timer.current = setTimeout(handleDecrement, 100);
     };
@@ -39,7 +44,7 @@ const NumericInput = ({ title, value, onChange }) => {
                 </TouchableOpacity>
 
                 <Text className="text-white font-wregular text-base">
-                    {value}
+                    {number}
                 </Text>
 
                 <TouchableOpacity

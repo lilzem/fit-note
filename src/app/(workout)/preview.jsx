@@ -5,6 +5,7 @@ import {
     StyleSheet,
     ScrollView,
     FlatList,
+    Alert,
 } from "react-native";
 import Edit from "../../../assets/images/svgs/edit_circle.svg";
 import Trash from "../../../assets/images/svgs/trash_circle.svg";
@@ -49,6 +50,18 @@ const Preview = () => {
             .catch((err) => console.log(err));
     };
 
+    const deleteExercise = (exercise_id) => {
+        axios
+            .delete(`api/trainings/${id}/exercises/${exercise_id}`)
+            .then(() => {
+                const filtered = exercises.filter(
+                    (exercise) => exercise._id !== exercise_id
+                );
+                setWorkout((prev) => ({ ...prev, exercises: [...filtered] }));
+            })
+            .then(() => Alert.alert("Success", "exercise has been deleted"));
+    };
+
     useEffect(() => {
         axios
             .get(`api/trainings/${id}`)
@@ -85,7 +98,7 @@ const Preview = () => {
                                     </Text>
                                     <Text className="text-gray font-wregular text-sm">
                                         {exercises?.length}{" "}
-                                        {exercises.length == 1
+                                        {exercises?.length == 1
                                             ? "Exercise"
                                             : "Exercises"}
                                     </Text>
@@ -118,8 +131,17 @@ const Preview = () => {
                                     <WorkoutItem
                                         name={item.name}
                                         sets={item.sets}
-                                        handlePress={() =>
-                                            onCardClick(item._id)
+                                        onEdit={() =>
+                                            router.push({
+                                                pathname: "/exercise",
+                                                params: {
+                                                    workout_id: id,
+                                                    exercise_id: item._id,
+                                                },
+                                            })
+                                        }
+                                        onDelete={() =>
+                                            deleteExercise(item._id)
                                         }
                                     />
                                 )}
