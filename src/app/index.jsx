@@ -60,41 +60,45 @@ export default function App() {
             <ImageBackground
                 source={images.background}
                 resizeMode="cover"
-                className="flex-1 flex items-center px-5"
+                className="flex-1 flex items-center justify-between px-5"
             >
                 <Text className="text-center m-14 text-white-100 font-wbold text-xl">
                     TrainNote
                 </Text>
 
-                <Text className="text-center mt-64  text-white font-wregular text-base">
-                    CREATE ACCOUNT OR LOGIN
-                </Text>
-                <Text className="text-center max-w-[280] text-gray font-wregular">
-                    Start track your workouts and exercises and share them with
-                    your friends
-                </Text>
+                <View>
+                    <Text className="text-center mt-64  text-white font-wregular text-base">
+                        CREATE ACCOUNT OR LOGIN
+                    </Text>
+                    <Text className="text-center max-w-[280] text-gray font-wregular">
+                        Start track your workouts and exercises and share them
+                        with your friends
+                    </Text>
+                </View>
 
-                <CustomButton
-                    title="Continue with email"
-                    icon={icons.email}
-                    style="white"
-                    containerStyles="w-full mt-48"
-                    handlePress={() => router.push("/sign-in")}
-                />
-                <CustomButton
-                    title="Continue with google"
-                    icon={icons.google_white}
-                    style="transparent"
-                    containerStyles="w-full mt-[10]"
-                    handlePress={() => {}}
-                />
+                <View className="items-center">
+                    <CustomButton
+                        title="Continue with email"
+                        icon={icons.email}
+                        style="white"
+                        containerStyles="w-full mt-48"
+                        handlePress={() => router.push("/sign-in")}
+                    />
+                    <CustomButton
+                        title="Continue with google"
+                        icon={icons.google_white}
+                        style="transparent"
+                        containerStyles="w-full mt-[10]"
+                        handlePress={() => {}}
+                    />
 
-                <Text className="font-wregular text-gray text-sm mt-[10]">
-                    Don't have an account?{" "}
-                    <Link className="text-white underline" href="/sign-up">
-                        Sign Up
-                    </Link>
-                </Text>
+                    <Text className="font-wregular text-gray text-sm mt-[10]">
+                        Don't have an account?{" "}
+                        <Link className="text-white underline" href="/sign-up">
+                            Sign Up
+                        </Link>
+                    </Text>
+                </View>
             </ImageBackground>
 
             <StatusBar style="auto" />

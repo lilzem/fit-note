@@ -4,20 +4,20 @@ import { icons } from "../constants/icons";
 import Edit from "../../assets/images/svgs/edit.svg";
 import Move from "../../assets/images/svgs/move.svg";
 
-const WorkoutItem = () => {
+const WorkoutItem = ({ name, sets, handlePress }) => {
     return (
         <>
             <View className="w-full py-[9] flex flex-row justify-between items-center">
                 <View>
                     <Text className="text-white font-wregular text-base">
-                        Pull-ups
+                        {name}
                     </Text>
                     <View className="flex flex-row space-x-2">
                         <Text className="font-wregular text-gray text-xs">
-                            Weight 15 25 30 30
+                            Weight {sets.map((item) => `${item.weight} `)}
                         </Text>
                         <Text className="font-wregular text-gray text-xs">
-                            Reps 15 25 30 30
+                            Reps {sets.map((item) => `${item.reps} `)}
                         </Text>
                     </View>
                 </View>

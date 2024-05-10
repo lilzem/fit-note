@@ -4,6 +4,7 @@ import {
     ImageBackground,
     StyleSheet,
     ScrollView,
+    FlatList,
 } from "react-native";
 import { workouts_background } from "../../constants/images";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,11 +13,44 @@ import Header from "../../components/Header";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import Plus from "../../../assets/images/svgs/plus.svg";
-import NumericInput from "../../components/NumericInput";
 import Check from "../../../assets/images/svgs/check_white.svg";
 import Set from "../../components/Set";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 
 const Exercise = () => {
+    const { workout_id } = useLocalSearchParams();
+
+    const [sets, setSets] = useState([]);
+
+    console.log(sets);
+
+    const onSetChange = (index, value, type) => {
+        sets[index][type] = value;
+        setSets(sets);
+
+        console.log("calling", sets);
+    };
+
+    const addSet = () => {
+        setSets((prev) => [...prev, { weight: 0, reps: 0 }]);
+    };
+
+    const removeSet = (index) => {
+        const copiedSets = [...sets];
+        copiedSets.splice(index, 1);
+        setSets(copiedSets);
+    };
+
+    // const onSubmit = () => {
+    //     console.log(sets);
+    //     router.back();
+    // };
+
+    useEffect(() => {
+        console.log(sets);
+    }, [sets]);
+
     return (
         <View className="flex-1 h-full">
             <ImageBackground
@@ -51,21 +85,31 @@ const Exercise = () => {
                                     title="Add set"
                                     style="transparent"
                                     containerStyles="border-gray px-[10] py-[5]"
+                                    handlePress={addSet}
                                 >
                                     <Plus width={15} height={15} />
                                 </CustomButton>
                             </View>
-                            <ScrollView>
-                                <Set />
-                                <Set />
-                                <Set />
-                                <Set />
-                            </ScrollView>
+                            <FlatList
+                                data={sets}
+                                renderItem={({ item, index }) => (
+                                    <Set
+                                        weight={item?.weight}
+                                        reps={item?.reps}
+                                        handleChange={(value, type) =>
+                                            onSetChange(index, value, type)
+                                        }
+                                        onDelete={() => removeSet(index)}
+                                    />
+                                )}
+                                keyExtractor={(item) => item._id}
+                            />
 
                             <CustomButton
                                 style="green"
                                 title="Save exercise"
                                 containerStyles="mt-[15]"
+                                handlePress={onSubmit}
                             >
                                 <Check />
                             </CustomButton>
