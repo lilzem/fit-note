@@ -26,7 +26,7 @@ const Header = ({ isWorkout = false }) => {
                 )}
             </View>
 
-            <View className="w-fit rounded-xl" style={styles.shadow}>
+            {/* <View className="w-fit rounded-xl" style={styles.shadow}>
                 {isWorkout && (
                     <Share
                         width={24}
@@ -34,7 +34,7 @@ const Header = ({ isWorkout = false }) => {
                         onPress={() => router.push("/sign-in")}
                     />
                 )}
-            </View>
+            </View> */}
         </View>
     );
 };

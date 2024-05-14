@@ -11,7 +11,7 @@ import React from "react";
 import { icons } from "../constants/icons";
 import { getRandomWorkoutImage } from "../constants/images";
 
-const TrainingCard = ({ image, name, handlePress }) => {
+const TrainingCard = ({ image, name, exercises, handlePress }) => {
     return (
         <TouchableOpacity
             activeOpacity={0.8}
@@ -19,7 +19,7 @@ const TrainingCard = ({ image, name, handlePress }) => {
             onPress={handlePress}
         >
             <ImageBackground
-                source={image}
+                source={{ uri: image }}
                 resizeMode="cover"
                 className="  flex-row flex justify-between items-center shadow-lg "
                 imageStyle={{
@@ -38,7 +38,7 @@ const TrainingCard = ({ image, name, handlePress }) => {
                         </Text>
 
                         <Text className="font-wregular text-left text-gray text-xs ml-0.5">
-                            8 exercises
+                            {exercises?.length} exercises
                         </Text>
                     </View>
 

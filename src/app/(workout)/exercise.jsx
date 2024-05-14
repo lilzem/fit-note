@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import axios from "../../api/axios";
 
 const Exercise = () => {
-    const { workout_id, exercise_id } = useLocalSearchParams();
+    const { workout_id, exercise_id, image } = useLocalSearchParams();
 
     const [sets, setSets] = useState([]);
     const [name, setName] = useState("");
@@ -46,7 +46,7 @@ const Exercise = () => {
             .then(() =>
                 router.replace({
                     pathname: "/preview",
-                    params: { id: workout_id },
+                    params: { id: workout_id, image },
                 })
             )
             .catch((err) => console.log(err));
@@ -61,7 +61,7 @@ const Exercise = () => {
             .then(() =>
                 router.replace({
                     pathname: "/preview",
-                    params: { id: workout_id },
+                    params: { id: workout_id, image },
                 })
             )
             .catch((err) => console.log(err));
@@ -81,7 +81,7 @@ const Exercise = () => {
     return (
         <View className="flex-1 h-full">
             <ImageBackground
-                source={workouts_background.fitnote_workout_54}
+                source={{ uri: image }}
                 resizeMode="cover"
                 className="flex-1 flex items-center "
             >

@@ -29,16 +29,19 @@ const workouts = () => {
             .then((res) =>
                 router.push({
                     pathname: "/preview",
-                    params: { id: res.data.training._id },
+                    params: {
+                        id: res.data.training._id,
+                        image: res.data.training.image,
+                    },
                 })
             )
             .then(() => handleModal());
     };
 
-    const onCardClick = (id) => {
+    const onCardClick = (item) => {
         router.push({
             pathname: "/preview",
-            params: { id },
+            params: { id: item._id, image: item.image },
         });
     };
 
@@ -54,7 +57,7 @@ const workouts = () => {
 
     return (
         <>
-            <SafeAreaView className="bg-black h-[calc(100%-74)] px-5 flex-1 justify-between items-center">
+            <SafeAreaView className="bg-black h-[calc(100%-74)] px-5 flex-1 items-center justify-between">
                 {/* <ScrollView className="w-full mb-[74]"> */}
                 <Text className="text-white font-wregular text-base mt-7">
                     ALL TRAININGS
@@ -65,9 +68,10 @@ const workouts = () => {
                     data={workouts}
                     renderItem={({ item }) => (
                         <TrainingCard
-                            image={getRandomWorkoutImage()}
+                            image={item.image}
                             name={item.name}
-                            handlePress={() => onCardClick(item._id)}
+                            exercises={item.exercises}
+                            handlePress={() => onCardClick(item)}
                         />
                     )}
                     keyExtractor={(item) => item._id}

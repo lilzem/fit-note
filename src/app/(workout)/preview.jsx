@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import axios from "../../api/axios";
 
 const Preview = () => {
-    const { id } = useLocalSearchParams();
+    const { id, image } = useLocalSearchParams();
 
     const [isLoading, setIsLoading] = useState(true);
     const [workout, setWorkout] = useState({});
@@ -76,7 +76,7 @@ const Preview = () => {
         <>
             <View className="flex-1 h-full">
                 <ImageBackground
-                    source={workouts_background.fitnote_workout_54}
+                    source={{ uri: image }}
                     resizeMode="cover"
                     className="flex-1 flex items-center "
                 >
@@ -132,11 +132,12 @@ const Preview = () => {
                                         name={item.name}
                                         sets={item.sets}
                                         onEdit={() =>
-                                            router.push({
+                                            router.replace({
                                                 pathname: "/exercise",
                                                 params: {
                                                     workout_id: id,
                                                     exercise_id: item._id,
+                                                    image,
                                                 },
                                             })
                                         }
@@ -156,7 +157,7 @@ const Preview = () => {
                                 handlePress={() =>
                                     router.push({
                                         pathname: "/exercise",
-                                        params: { workout_id: id },
+                                        params: { workout_id: id, image },
                                     })
                                 }
                             />
