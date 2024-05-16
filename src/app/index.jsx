@@ -56,7 +56,7 @@ export default function App() {
                 className="flex-1 flex items-center justify-between px-5"
             >
                 <Text className="text-center m-14 text-white-100 font-wbold text-xl">
-                    TrainNote
+                    FitNote
                 </Text>
 
                 <View>

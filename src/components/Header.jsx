@@ -21,20 +21,20 @@ const Header = ({ isWorkout = false }) => {
             <View>
                 {!isWorkout && (
                     <Text className="text-white font-wbold text-lg">
-                        TrainNote
+                        FitNote
                     </Text>
                 )}
             </View>
 
-            {/* <View className="w-fit rounded-xl" style={styles.shadow}>
-                {isWorkout && (
+            <View className="w-fit rounded-xl">
+                {/* {isWorkout && (
                     <Share
                         width={24}
                         height={24}
                         onPress={() => router.push("/sign-in")}
                     />
-                )}
-            </View> */}
+                )} */}
+            </View>
         </View>
     );
 };
