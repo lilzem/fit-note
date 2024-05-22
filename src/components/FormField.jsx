@@ -11,6 +11,7 @@ const FormField = ({
     styles,
     containerStyles,
     isAutoFocus = false,
+    onKeyPress,
 }) => {
     return (
         <View className={`${styles} ${title ? "space-y-2" : ""}`}>
@@ -24,6 +25,7 @@ const FormField = ({
                     placeholder={placeholder}
                     placeholderTextColor="#EEECE880"
                     value={value}
+                    onKeyPress={onKeyPress}
                     autoFocus={isAutoFocus}
                     onChangeText={handleChange}
                     secureTextEntry={password}

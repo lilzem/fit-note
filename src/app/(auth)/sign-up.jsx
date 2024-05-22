@@ -6,7 +6,7 @@ import CustomButton from "../../components/CustomButton";
 import { icons } from "../../constants/icons";
 import Header from "../../components/Header";
 import axios from "../../api/axios.js";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { useAuthStore } from "../../store/auth";
 
 const SignUp = () => {
@@ -35,7 +35,7 @@ const SignUp = () => {
             const { user, token } = res.data;
             login(token, user);
             Alert.alert("Success", "You successfully signed up");
-            router.replace("/home");
+            router.replace("/survey");
         } catch (error) {
             Alert.alert("Error", error.message);
         } finally {
@@ -67,6 +67,13 @@ const SignUp = () => {
                     handleChange={(e) => handleFormChange("password", e)}
                     password
                 />
+
+                <Text className="font-wregular text-gray text-sm mt-[10]">
+                    Already have an account?{"  "}
+                    <Link className="text-white underline" href="/sign-in">
+                        Sign In
+                    </Link>
+                </Text>
             </View>
 
             <View className="w-full px-4">

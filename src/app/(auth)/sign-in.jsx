@@ -6,7 +6,7 @@ import CustomButton from "../../components/CustomButton.jsx";
 import { icons } from "../../constants/icons.js";
 import Header from "../../components/Header.jsx";
 import axios from "../../api/axios.js";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { useAuthStore } from "../../store/auth.js";
 
 const SignIn = () => {
@@ -67,6 +67,13 @@ const SignIn = () => {
                     handleChange={(e) => handleFormChange("password", e)}
                     password
                 />
+
+                <Text className="font-wregular text-gray text-sm mt-[10]">
+                    Don't have an account?{"  "}
+                    <Link className="text-white underline" href="/sign-up">
+                        Sign Up
+                    </Link>
+                </Text>
             </View>
 
             <View className="w-full px-4">

@@ -77,20 +77,20 @@ export default function App() {
                         containerStyles="w-full mt-48"
                         handlePress={() => router.push("/sign-in")}
                     />
-                    <CustomButton
+                    {/* <CustomButton
                         title="Continue with google"
                         icon={icons.google_white}
                         style="transparent"
                         containerStyles="w-full mt-[10]"
                         handlePress={() => {}}
-                    />
+                    /> */}
 
-                    <Text className="font-wregular text-gray text-sm mt-[10]">
+                    {/* <Text className="font-wregular text-gray text-sm mt-[10]">
                         Don't have an account?{" "}
                         <Link className="text-white underline" href="/sign-up">
                             Sign Up
                         </Link>
-                    </Text>
+                    </Text> */}
                 </View>
             </ImageBackground>
 

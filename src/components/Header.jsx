@@ -14,7 +14,7 @@ import PressableIcon from "./PressableIcon";
 const Header = ({ isWorkout = false }) => {
     return (
         <View className="flex-row w-full justify-between items-center mb-4 px-5">
-            <View className="w-fit rounded-xl" style={styles.shadow}>
+            <View className="w-fit rounded-xl">
                 <Arrow width={24} height={24} onPress={() => router.back()} />
             </View>
 
@@ -38,19 +38,5 @@ const Header = ({ isWorkout = false }) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 12,
-        },
-        shadowOpacity: 0.9,
-        shadowRadius: 16,
-
-        elevation: 25,
-    },
-});
 
 export default Header;
