@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useEffect, useRef, useState } from "react";
 import Search from "../../components/Search";
-import FoodItem from "../../components/FoodItem";
+import FoodSearchItem from "../../components/FoodSearchItem";
 import axios from "../../api/axios";
 import useDebounce from "../../hooks/useDebounce";
 import debounce from "lodash.debounce";
@@ -34,6 +34,7 @@ const nutrition = () => {
 
         if (!text) {
             setFoods([]);
+            setIsLoading(false);
             return;
         }
 
@@ -53,19 +54,17 @@ const nutrition = () => {
             <Search
                 placeholder="Search for food..."
                 handleChange={handleSearch}
+                isLoading={isLoading}
             />
-            {isLoading ? (
-                <ActivityIndicator size="small" color="#fff" />
-            ) : (
-                <FlatList
-                    className="mb-[74]"
-                    data={foods}
-                    renderItem={({ item }) => (
-                        <FoodItem {...item} onPress={() => saveFood(item)} />
-                    )}
-                    keyExtractor={(item) => item.foodId}
-                />
-            )}
+
+            <FlatList
+                className="mb-[74]"
+                data={foods}
+                renderItem={({ item }) => (
+                    <FoodSearchItem {...item} onPress={() => saveFood(item)} />
+                )}
+                keyExtractor={(item) => item.foodId}
+            />
         </SafeAreaView>
     );
 };

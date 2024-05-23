@@ -1,4 +1,4 @@
-import { View, TextInput } from "react-native";
+import { View, TextInput, ActivityIndicator } from "react-native";
 import SearchIcon from "../../assets/images/svgs/search.svg";
 
 const Search = ({
@@ -7,6 +7,7 @@ const Search = ({
     placeholder,
     styles,
     containerStyles,
+    isLoading,
 }) => {
     return (
         <View
@@ -21,6 +22,8 @@ const Search = ({
                 value={value}
                 onChangeText={handleChange}
             />
+
+            {isLoading && <ActivityIndicator size="small" color="#fff" />}
         </View>
     );
 };

@@ -8,7 +8,7 @@ import CustomButton from "../../components/CustomButton";
 import { icons } from "../../constants/icons";
 import Header from "../../components/Header";
 import axios from "../../api/axios.js";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useAuthStore } from "../../store/auth";
 import { handleKeyDown } from "../../util/input.js";
 
@@ -43,6 +43,10 @@ const ACTIVITY = [
 ];
 
 const Survey = () => {
+    const { token } = useLocalSearchParams();
+
+    const { setLogin } = useAuthStore((state) => state);
+
     const [personalInfo, setPersonalInfo] = useState({
         age: 0,
         height: 0,
@@ -59,13 +63,14 @@ const Survey = () => {
     const handleSubmit = () => {
         axios
             .patch("api/users/me", personalInfo)
+            .then((res) => setLogin(token, res.data.user))
             .then(() => router.replace("/home"))
             .catch((err) => console.log(err));
     };
 
     return (
         <SafeAreaView className="h-full bg-black flex justify-between pb-5">
-            <View className="w-full flex justify-center min-h-[85] px-5 py-4 gap-y-3">
+            <View className="w-full flex justify-center min-h-[85] px-5 py-4">
                 <Header />
 
                 <Text className="text-left font-wregular text-white text-base">
@@ -74,6 +79,7 @@ const Survey = () => {
 
                 <Select
                     options={SEX}
+                    containerStyles="mt-3"
                     label="Choose your sex"
                     value={personalInfo.sex}
                     handleChange={(item) =>
@@ -111,6 +117,7 @@ const Survey = () => {
 
                 <Select
                     options={GOALS}
+                    containerStyles="my-3 mb-6"
                     label="Choose your goal"
                     value={personalInfo.goal}
                     handleChange={(item) =>
@@ -120,6 +127,7 @@ const Survey = () => {
 
                 <Select
                     options={ACTIVITY}
+                    containerStyles="my-3"
                     label="Choose your Activity Level"
                     value={personalInfo.activity}
                     handleChange={(item) =>

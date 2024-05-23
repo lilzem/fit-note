@@ -35,7 +35,7 @@ const SignUp = () => {
             const { user, token } = res.data;
             login(token, user);
             Alert.alert("Success", "You successfully signed up");
-            router.replace("/survey");
+            router.replace({ href: "/survey", params: { token } });
         } catch (error) {
             Alert.alert("Error", error.message);
         } finally {
