@@ -11,12 +11,12 @@ import FoodItem from "../../components/FoodItem";
 import StepCounter from "../../components/StepCounter";
 
 const home = () => {
+    const { user } = useAuthStore((state) => state);
+
     const [foodItems, setFoodItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [goal, setGoal] = useState(0);
+    const [goal, setGoal] = useState(user.calorie);
     const [foodCalories, setFoodCalories] = useState(0);
-
-    const { user } = useAuthStore((state) => state);
 
     const getFoodItems = () => {
         axios
@@ -39,7 +39,6 @@ const home = () => {
     useFocusEffect(useCallback(getFoodItems, []));
 
     useEffect(() => {
-        setGoal(user?.calorie);
         setFoodCalories(getFoodCalories());
     }, [goal, foodItems]);
 
@@ -108,7 +107,7 @@ const home = () => {
 
             <StepCounter containerStyles="my-5" />
 
-            <Text className="font-wsemibold text-xl text-white mb-0">
+            <Text className="font-wsemibold text-xl text-white">
                 Today's food
             </Text>
 
@@ -122,7 +121,10 @@ const home = () => {
                 <ActivityIndicator size="small" color="#fff" />
             ) : (
                 <FlatList
-                    className="mb-[74]"
+                    className="mb-[74] mt-3"
+                    contentContainerStyle={{
+                        gap: 12,
+                    }}
                     data={foodItems}
                     renderItem={({ item }) => <FoodItem {...item} />}
                     keyExtractor={(item) => item.foodId}

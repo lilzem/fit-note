@@ -2,31 +2,32 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useStepsStore } from "../store/steps";
-// import {
-//     parseStepData,
-//     startStepCounterUpdate,
-// } from "@dongminyu/react-native-step-counter";
-
-const CALORIES_PER_STEP = 0.05;
+import RNSamsungHealth from "rn-samsung-health";
 
 const StepCounter = ({ containerStyles }) => {
     const { steps, setSteps } = useStepsStore((state) => state);
     const [_steps, _setSteps] = useState(steps);
-    const [lastY, setLastY] = useState(0);
-    const [isCounting, setIsCounting] = useState(false);
-    const [lastTimeStamp, setLastTimeStamp] = useState(0);
 
-    const caloriesBurned = (CALORIES_PER_STEP * _steps).toFixed(2);
+    const distance = steps / 1300;
+    const distanceCovered = distance.toFixed(2);
+    const cal = distanceCovered * 60;
+    const caloriesBurnt = cal.toFixed(2);
 
-    // async function startStepCounter() {
-    //     startStepCounterUpdate(new Date(), (data) => {
-    //         console.debug(parseStepData(data));
-    //         _setSteps(data.steps);
-    //         setSteps(data.steps);
-    //     });
-    // }
+    useEffect(() => {
+        health();
+    }, []);
 
-    // useEffect(startStepCounter, []);
+    const health = async () => {
+        try {
+            const auth = await RNSamsungHealth.authorize();
+            let startDate = new Date().setDate(new Date().getDate() - 30); // 30 days back date
+            let endDate = new Date().getTime(); //today's date
+            let opt = { startDate, endDate };
+            const steps = await RNSamsungHealth.getDailyStepCount(opt);
+        } catch (error) {
+            console.log("error ", error);
+        }
+    };
 
     return (
         <View className={`border-2 border-gray rounded-lg ${containerStyles}`}>
@@ -44,8 +45,12 @@ const StepCounter = ({ containerStyles }) => {
                     </Text>
                 </View>
 
+                <Text className="font-wregular text-white text-base">
+                    Distance covered: {distanceCovered}
+                </Text>
+
                 <Text className="font-wregular text-gray text-base">
-                    Estimated calories burned: {caloriesBurned}
+                    Estimated calories burned: {caloriesBurnt}
                 </Text>
             </LinearGradient>
         </View>

@@ -8,7 +8,7 @@ const FoodItem = ({ label, weight, count, nutrients }) => {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            className="h-fit w-full mt-5 flex-row justify-between items-center  border-2 border-gray rounded-lg"
+            className="h-fit w-full flex-row justify-between items-center  border-2 border-gray rounded-lg"
         >
             <LinearGradient
                 colors={["rgba(255, 255, 255, 0.1)", "rgba(0, 0, 0, 0.7)"]}
