@@ -27,7 +27,7 @@ export default function App() {
                 try {
                     const response = await axios.get("/api/users/me");
                     const user = response.data;
-                    login(token, user);
+                    login(token, user.user);
                     router.replace("/home");
                 } catch (err) {
                     console.log("error: ", err);

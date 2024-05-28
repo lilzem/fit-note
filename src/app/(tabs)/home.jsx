@@ -11,11 +11,11 @@ import FoodItem from "../../components/FoodItem";
 import StepCounter from "../../components/StepCounter";
 
 const home = () => {
-    const { user } = useAuthStore((state) => state);
+    const { user, logout } = useAuthStore((state) => state);
 
     const [foodItems, setFoodItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [goal, setGoal] = useState(user.calorie);
+    const [goal, setGoal] = useState();
     const [foodCalories, setFoodCalories] = useState(0);
 
     const getFoodItems = () => {
@@ -40,13 +40,16 @@ const home = () => {
 
     useEffect(() => {
         setFoodCalories(getFoodCalories());
+        if (user) {
+            setGoal(user.calorie);
+        }
     }, [goal, foodItems]);
 
     return (
         <SafeAreaView className="bg-black h-[calc(100%-74)] flex-1 justify-between px-5 py-5">
             {/* <CustomButton
                 title="logout"
-                handlePress={logOut}
+                handlePress={logout}
                 style="transparent"
             /> */}
 
@@ -105,9 +108,9 @@ const home = () => {
                 </LinearGradient>
             </View>
 
-            <StepCounter containerStyles="my-5" />
+            {/* <StepCounter containerStyles="my-5" /> */}
 
-            <Text className="font-wsemibold text-xl text-white">
+            <Text className="font-wsemibold text-xl text-white my-5 mb-2">
                 Today's food
             </Text>
 

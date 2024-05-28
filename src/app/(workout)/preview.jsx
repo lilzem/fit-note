@@ -1,12 +1,4 @@
-import {
-    View,
-    Text,
-    ImageBackground,
-    StyleSheet,
-    ScrollView,
-    FlatList,
-    Alert,
-} from "react-native";
+import { View, Text, ImageBackground, FlatList } from "react-native";
 import Edit from "../../../assets/images/svgs/edit_circle.svg";
 import Trash from "../../../assets/images/svgs/trash_circle.svg";
 import { images, workouts_background } from "../../constants/images";
@@ -59,7 +51,14 @@ const Preview = () => {
                 );
                 setWorkout((prev) => ({ ...prev, exercises: [...filtered] }));
             })
-            .then(() => Alert.alert("Success", "exercise has been deleted"));
+            .then(() =>
+                notify("success", {
+                    params: {
+                        description: "Exercise has been deleted",
+                        title: "Success",
+                    },
+                })
+            );
     };
 
     useEffect(() => {

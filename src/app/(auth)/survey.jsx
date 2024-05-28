@@ -1,15 +1,15 @@
 import { View, Text } from "react-native";
 import React from "react";
-import Select from "../../components/Select";
+import Select from "../../components/Select.jsx";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormField from "../../components/FormField";
-import CustomButton from "../../components/CustomButton";
-import { icons } from "../../constants/icons";
-import Header from "../../components/Header";
+import FormField from "../../components/FormField.jsx";
+import CustomButton from "../../components/CustomButton.jsx";
+import { icons } from "../../constants/icons.js";
+import Header from "../../components/Header.jsx";
 import axios from "../../api/axios.js";
 import { router, useLocalSearchParams } from "expo-router";
-import { useAuthStore } from "../../store/auth";
+import { useAuthStore } from "../../store/auth.js";
 import { handleKeyDown } from "../../util/input.js";
 
 const SEX = [

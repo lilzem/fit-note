@@ -1,19 +1,12 @@
-import {
-    View,
-    Text,
-    FlatList,
-    ActivityIndicator,
-    RefreshControl,
-    Alert,
-} from "react-native";
+import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useEffect, useRef, useState } from "react";
 import Search from "../../components/Search";
 import FoodSearchItem from "../../components/FoodSearchItem";
 import axios from "../../api/axios";
-import useDebounce from "../../hooks/useDebounce";
 import debounce from "lodash.debounce";
+import { notify } from "react-native-notificated";
 
 const nutrition = () => {
     const [foods, setFoods] = useState([]);
@@ -45,7 +38,14 @@ const nutrition = () => {
     const saveFood = (item) => {
         axios
             .post("/api/foods", item)
-            .then(() => Alert.alert("success", "food has been saved"))
+            .then(() =>
+                notify("success", {
+                    params: {
+                        description: "Your meal has been added",
+                        title: "Success",
+                    },
+                })
+            )
             .catch((err) => console.log(err));
     };
 

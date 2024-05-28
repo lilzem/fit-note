@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Alert } from "react-native";
+import { View, Text } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../../components/FormField";
@@ -8,6 +8,7 @@ import Header from "../../components/Header";
 import axios from "../../api/axios.js";
 import { Link, router } from "expo-router";
 import { useAuthStore } from "../../store/auth";
+import { notify } from "react-native-notificated";
 
 const SignUp = () => {
     const [form, setForm] = useState({
@@ -25,7 +26,12 @@ const SignUp = () => {
 
     const onSubmit = async () => {
         if (!form.email || !form.password) {
-            Alert.alert("Error", "Fill in all fields");
+            notify("error", {
+                params: {
+                    description: "Fill in all fields",
+                    title: "Error",
+                },
+            });
         }
 
         setisSubmitting(true);
@@ -34,10 +40,20 @@ const SignUp = () => {
             const res = await axios.post("api/auth/register", form);
             const { user, token } = res.data;
             login(token, user);
-            Alert.alert("Success", "You successfully signed up");
-            router.replace({ href: "/survey", params: { token } });
+            notify("success", {
+                params: {
+                    description: "You successfully signed up",
+                    title: "Success",
+                },
+            });
+            router.replace({ pathname: "/survey", params: { token } });
         } catch (error) {
-            Alert.alert("Error", error.message);
+            notify("error", {
+                params: {
+                    description: `${error.message}`,
+                    title: "Error",
+                },
+            });
         } finally {
             setisSubmitting(false);
         }
