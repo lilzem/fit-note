@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import PressableIcon from "./PressableIcon";
 import { icons } from "../constants/icons";
 import Edit from "../../assets/images/svgs/edit.svg";
+import Trash from "../../assets/images/svgs/trash.svg";
 import Move from "../../assets/images/svgs/move.svg";
 
 const WorkoutItem = ({ name, sets, onEdit, onDelete }) => {
@@ -24,7 +25,8 @@ const WorkoutItem = ({ name, sets, onEdit, onDelete }) => {
 
                 <View className="flex-row space-x-2">
                     <Edit height={14} width={14} onPress={onEdit} />
-                    <Move height={14} width={14} onPress={onDelete} />
+                    {/* <Move height={14} width={14} onPress={onDelete} /> */}
+                    <Trash height={14} width={14} onPress={onDelete} />
                 </View>
             </View>
 

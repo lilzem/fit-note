@@ -91,7 +91,13 @@ const Exercise = () => {
                     end={{ x: 0.5, y: 0.4 }}
                 >
                     <SafeAreaView className="h-ful flex justify-between py-2 px-[20]">
-                        <Header isWorkout />
+                        <Header
+                            isWorkout
+                            route={{
+                                pathname: "/preview",
+                                params: { id: workout_id, image },
+                            }}
+                        />
 
                         <View
                             style={styles.bg}

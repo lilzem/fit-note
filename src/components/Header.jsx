@@ -11,11 +11,17 @@ import Arrow from "../../assets/images/svgs/left_arrow.svg";
 import Share from "../../assets/images/svgs/share.svg";
 import PressableIcon from "./PressableIcon";
 
-const Header = ({ isWorkout = false }) => {
+const Header = ({ isWorkout = false, route }) => {
     return (
         <View className="flex-row w-full justify-between items-center mb-4 px-5">
             <View className="w-fit rounded-xl">
-                <Arrow width={24} height={24} onPress={() => router.back()} />
+                <Arrow
+                    width={24}
+                    height={24}
+                    onPress={() =>
+                        route ? router.replace(route) : router.back()
+                    }
+                />
             </View>
 
             <View>
